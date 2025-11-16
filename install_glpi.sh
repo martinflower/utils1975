@@ -39,7 +39,7 @@ install_if_missing() {
 }
 
 restart_services() {
-    systemctl restart php-fpm
+    # systemctl restart php-fpm
     systemctl reload apache2
     log_ok "PHP-FPM and Apache services restarted."
 }
@@ -229,7 +229,7 @@ update_system
 install_dependencies
 install_glpi
 configure_apache_http
-systemctl enable php-fpm
+# systemctl enable php-fpm
 systemctl restart php-fpm
 systemctl reload apache2
 enable_session_cookie_secure
