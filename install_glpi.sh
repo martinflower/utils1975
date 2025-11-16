@@ -127,7 +127,7 @@ configure_apache_http() {
         RewriteRule ^(.*)$ index.php [QSA,L]
     </Directory>
     <FilesMatch \.php$>
-        SetHandler "proxy:unix:/run/php/php-fpm8.3.2.sock|fcgi://localhost/"
+        SetHandler "proxy:unix:/run/php/php-fpm8.3.6.sock|fcgi://localhost/"
     </FilesMatch>
     ErrorLog \${APACHE_LOG_DIR}/glpi_error.log
     CustomLog \${APACHE_LOG_DIR}/glpi_access.log combined
@@ -201,7 +201,7 @@ configure_apache_https() {
         RewriteRule ^(.*)$ index.php [QSA,L]
     </Directory>
     <FilesMatch \.php$>
-        SetHandler "proxy:unix:/run/php/php-fpm8.3.2.sock|fcgi://localhost/"
+        SetHandler "proxy:unix:/run/php/php-fpm8.3.6.sock|fcgi://localhost/"
     </FilesMatch>
     ErrorLog \${APACHE_LOG_DIR}/glpi_ssl_error.log
     CustomLog \${APACHE_LOG_DIR}/glpi_ssl_access.log combined
