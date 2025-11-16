@@ -39,15 +39,15 @@ install_if_missing() {
 }
 
 restart_services() {
-    systemctl restart php8.2-fpm
+    systemctl restart php-fpm
     systemctl reload apache2
     log_ok "PHP-FPM and Apache services restarted."
 }
 
 enable_session_cookie_secure() {
     log_info "Enabling session.cookie_secure for PHP..."
-    PHP_FPM_INI="/etc/php/8.2/fpm/php.ini"
-    FPM_POOL="/etc/php/8.2/fpm/pool.d/www.conf"
+    PHP_FPM_INI="/etc/php//fpm/php.ini"
+    FPM_POOL="/etc/php//fpm/pool.d/www.conf"
     USER_INI="$GLPI_DIR/.user.ini"
 
     # php.ini
@@ -89,8 +89,8 @@ install_dependencies() {
     log_info "Installing required packages..."
     DEPENDENCIES=(
         apache2 mariadb-server mariadb-client wget unzip tar \
-        php8.2 php8.2-cli php8.2-fpm php8.2-mysql php8.2-curl php8.2-xml php8.2-mbstring \
-        php8.2-ldap php8.2-zip php8.2-bz2 php8.2-gd php8.2-intl php8.2-bcmath
+        php php-cli php-fpm php-mysql php-curl php-xml php-mbstring \
+        php-ldap php-zip php-bz2 php-gd php-intl php-bcmath
     )
     for pkg in "${DEPENDENCIES[@]}"; do
         install_if_missing "$pkg"
@@ -127,7 +127,7 @@ configure_apache_http() {
         RewriteRule ^(.*)$ index.php [QSA,L]
     </Directory>
     <FilesMatch \.php$>
-        SetHandler "proxy:unix:/run/php/php8.2-fpm.sock|fcgi://localhost/"
+        SetHandler "proxy:unix:/run/php/php-fpm8.3.2.sock|fcgi://localhost/"
     </FilesMatch>
     ErrorLog \${APACHE_LOG_DIR}/glpi_error.log
     CustomLog \${APACHE_LOG_DIR}/glpi_access.log combined
@@ -201,7 +201,7 @@ configure_apache_https() {
         RewriteRule ^(.*)$ index.php [QSA,L]
     </Directory>
     <FilesMatch \.php$>
-        SetHandler "proxy:unix:/run/php/php8.2-fpm.sock|fcgi://localhost/"
+        SetHandler "proxy:unix:/run/php/php-fpm8.3.2.sock|fcgi://localhost/"
     </FilesMatch>
     ErrorLog \${APACHE_LOG_DIR}/glpi_ssl_error.log
     CustomLog \${APACHE_LOG_DIR}/glpi_ssl_access.log combined
@@ -229,8 +229,8 @@ update_system
 install_dependencies
 install_glpi
 configure_apache_http
-systemctl enable php8.2-fpm
-systemctl restart php8.2-fpm
+systemctl enable php-fpm
+systemctl restart php-fpm
 systemctl reload apache2
 enable_session_cookie_secure
 configure_database
