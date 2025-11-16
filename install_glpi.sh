@@ -39,7 +39,7 @@ install_if_missing() {
 }
 
 restart_services() {
-    # systemctl restart php-fpm
+    systemctl restart php-fpm8.3
     systemctl reload apache2
     log_ok "PHP-FPM and Apache services restarted."
 }
@@ -127,7 +127,7 @@ configure_apache_http() {
         RewriteRule ^(.*)$ index.php [QSA,L]
     </Directory>
     <FilesMatch \.php$>
-        SetHandler "proxy:unix:/run/php/php-fpm8.3.6.sock|fcgi://localhost/"
+        SetHandler "proxy:unix:/run/php/php-fpm8.3.sock|fcgi://localhost/"
     </FilesMatch>
     ErrorLog \${APACHE_LOG_DIR}/glpi_error.log
     CustomLog \${APACHE_LOG_DIR}/glpi_access.log combined
@@ -201,7 +201,7 @@ configure_apache_https() {
         RewriteRule ^(.*)$ index.php [QSA,L]
     </Directory>
     <FilesMatch \.php$>
-        SetHandler "proxy:unix:/run/php/php-fpm8.3.6.sock|fcgi://localhost/"
+        SetHandler "proxy:unix:/run/php/php-fpm8.3.sock|fcgi://localhost/"
     </FilesMatch>
     ErrorLog \${APACHE_LOG_DIR}/glpi_ssl_error.log
     CustomLog \${APACHE_LOG_DIR}/glpi_ssl_access.log combined
@@ -229,8 +229,8 @@ update_system
 install_dependencies
 install_glpi
 configure_apache_http
-# systemctl enable php-fpm
-systemctl restart php-fpm
+systemctl enable php-fpm8.3
+systemctl restart php-fpm8.3
 systemctl reload apache2
 enable_session_cookie_secure
 configure_database
